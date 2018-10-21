@@ -72,6 +72,18 @@ class PartySupply(db.Model):
     have = db.Column(db.Boolean)
 
 
+class Disaster(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(128), index=True, unique=True)
+
+
+class RecommendedSupply(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    disaster_id = db.Column(db.Integer, db.ForeignKey('disaster.id'))
+    supply_id = db.Column(db.Integer, db.ForeignKey('supply.id'))
+    qty = db.Column(db.Integer)
+
+
 @login.user_loader
 def load_user(id):
     return User.query.get(int(id))
