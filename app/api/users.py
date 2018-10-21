@@ -41,6 +41,7 @@ def create_user():
     return response
 
 @bp.route('/users', methods=['PUT'])
+@bp.route('/users/update', methods=['PUT', 'POST'])
 def update_user():
     data = request.get_json() or {}
 

@@ -40,7 +40,8 @@ class User(UserMixin, db.Model):
             'name': self.name,
             'email': self.email,
             'phone_number': self.phone_number,
-            'party_id': self.party_id
+            'party_id': self.party_id,
+            'zip_code': self.zip_code
         }
         if include_email:
             data['email'] = self.email
