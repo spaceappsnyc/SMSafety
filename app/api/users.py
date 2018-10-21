@@ -1,6 +1,6 @@
 from app.api import bp
 from flask import jsonify, url_for, request
-from app.models import User
+from app.models import User, Party
 from app import db
 from app.api.errors import bad_request
 
@@ -21,13 +21,18 @@ def create_user():
         if User.query.filter_by(email=data['email']).first():
             return bad_request('Please use a different email address')
     elif 'phone_number' in data:
-        if User.query.filter_by(phone_number=data['phone_number']).first():
+        if User.query.filter_by(phone_number=data['phone_number'].strip()).first():
             return bad_request('Please use a different phone number')
     else:
         return bad_request('Must include phone number or email')
 
     user = User()
     user.from_dict(data, new_user=True)
+
+    party = Party()
+    party.users.append(user)
+
+    db.session.add(party)
     db.session.add(user)
     db.session.commit()
     response = jsonify(user.to_dict())

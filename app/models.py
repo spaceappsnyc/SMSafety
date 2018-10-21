@@ -4,8 +4,8 @@ from flask_login import UserMixin
 
 class Party(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    main_contact = db.Column(db.Integer, db.ForeignKey('user.id'))
     last_contact = db.Column(db.DateTime)
+    users = db.relationship('User', backref='party', lazy='dynamic')
 
     def __repr__(self):
         return '<Party {}>'.format(self.id)
@@ -36,7 +36,8 @@ class User(UserMixin, db.Model):
             'id': self.id,
             'name': self.name,
             'email': self.email,
-            'phone_number': self.phone_number
+            'phone_number': self.phone_number,
+            'party_id': self.party_id
         }
         if include_email:
             data['email'] = self.email
