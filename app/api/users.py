@@ -18,11 +18,13 @@ def create_user():
     data = request.get_json() or {}
     if 'phone_number' not in data and 'email' not in data:
         return bad_request('must include phone number or email')
-    if User.query.filter_by(email=data['email']).first():
-        return bad_request('please use a different email address')
-    if User.query.filter_by(phone_number=data['phone_number']).first():
-        return bad_request('please use a different phone number')
-        
+    if 'email' in data:
+        if User.query.filter_by(email=data['email']).first():
+            return bad_request('please use a different email address')
+    if 'phone_number' in data:
+        if User.query.filter_by(phone_number=data['phone_number']).first():
+            return bad_request('please use a different phone number')
+
     user = User()
     user.from_dict(data, new_user=True)
     db.session.add(user)
