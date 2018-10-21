@@ -18,9 +18,12 @@ class User(UserMixin, db.Model):
     password_hash = db.Column(db.String(128))
     name = db.Column(db.String(64))
     party_id = db.Column(db.Integer, db.ForeignKey('party.id'))
-    location = db.Column(db.Integer, db.ForeignKey('location.id'))
     is_mobile = db.Column(db.Boolean)
     is_safe = db.Column(db.Boolean)
+    is_evacuating = db.Column(db.Boolean)
+    address = db.Column(db.String(128))
+    zip_code = db.Column(db.Integer)
+
 
     def __repr__(self):
         return '<User {}>'.format(self.name)
@@ -44,20 +47,11 @@ class User(UserMixin, db.Model):
         return data
 
     def from_dict(self, data, new_user=False):
-        for field in ['name', 'email', 'phone_number', 'is_mobile', 'is_safe']:
+        for field in ['name', 'email', 'phone_number', 'is_mobile', 'is_safe', 'is_evacuating', 'zip_code', 'address']:
             if field in data:
                 setattr(self, field, data[field].strip())
         if new_user and 'password' in data:
             self.set_password(data['password'])
-
-
-class Location(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    address = db.Column(db.String(128))
-    zip = db.Column(db.Integer)
-
-    def __repr__(self):
-        return '<Location {}>'.format(self.id)
 
 
 class Supply(db.Model):
