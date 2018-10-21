@@ -48,12 +48,18 @@ class User(UserMixin, db.Model):
         return data
 
     def from_dict(self, data, new_user=False):
-        for field in ['name', 'email', 'phone_number', 'is_mobile', 'is_safe', 'is_evacuating', 'zip_code', 'address']:
+        for field in ['name', 'email', 'phone_number', 'is_mobile', 'is_safe', 'is_evacuating', 'address']:
             if field in data:
                 if isinstance(data[field], str):
                     setattr(self, field, data[field].strip())
                 else:
                     setattr(self, field, data[field])
+        if 'zip_code' in data:
+            if isinstance(data['zip_code'], str):
+                setattr(self, field, int(data['zip_code'])
+            else:
+                setattr(self, field, data[field])
+        
         if new_user and 'password' in data:
             self.set_password(data['password'])
 
