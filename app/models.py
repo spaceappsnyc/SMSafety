@@ -42,7 +42,9 @@ class User(UserMixin, db.Model):
             'phone_number': self.phone_number,
             'party_id': self.party_id,
             'zip_code': self.zip_code,
-            'is_evacuating': self.is_evacuating
+            'is_evacuating': self.is_evacuating,
+            'is_mobile': self.is_mobile,
+            'address': self.address
         }
         if include_email:
             data['email'] = self.email
