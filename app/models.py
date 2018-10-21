@@ -31,6 +31,23 @@ class User(UserMixin, db.Model):
     def check_password(self, password):
         return check_password_hash(self.password_hash, password)
 
+    def to_dict(self, include_email=False):
+        data = {
+            'id': self.id,
+            'name': self.name,
+            'email': self.email
+        }
+        if include_email:
+            data['email'] = self.email
+        return data
+
+    def from_dict(self, data, new_user=False):
+        for field in ['name', 'email']:
+            if field in data:
+                setattr(self, field, data[field])
+        if new_user and 'password' in data:
+            self.set_password(data['password'])
+
 
 class Location(db.Model):
     id = db.Column(db.Integer, primary_key=True)
