@@ -16,14 +16,15 @@ def get_users():
 @bp.route('/users', methods=['POST'])
 def create_user():
     data = request.get_json() or {}
-    if 'phone_number' not in data and 'email' not in data:
-        return bad_request('must include phone number or email')
+
     if 'email' in data:
         if User.query.filter_by(email=data['email']).first():
-            return bad_request('please use a different email address')
-    if 'phone_number' in data:
+            return bad_request('Please use a different email address')
+    elif 'phone_number' in data:
         if User.query.filter_by(phone_number=data['phone_number']).first():
-            return bad_request('please use a different phone number')
+            return bad_request('Please use a different phone number')
+    else:
+        return bad_request('Must include phone number or email')
 
     user = User()
     user.from_dict(data, new_user=True)

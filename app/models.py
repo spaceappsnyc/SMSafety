@@ -35,14 +35,15 @@ class User(UserMixin, db.Model):
         data = {
             'id': self.id,
             'name': self.name,
-            'email': self.email
+            'email': self.email,
+            'phone_number': self.phone_number
         }
         if include_email:
             data['email'] = self.email
         return data
 
     def from_dict(self, data, new_user=False):
-        for field in ['name', 'email']:
+        for field in ['name', 'email', 'phone_number']:
             if field in data:
                 setattr(self, field, data[field])
         if new_user and 'password' in data:
