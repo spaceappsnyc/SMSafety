@@ -41,19 +41,24 @@ class User(UserMixin, db.Model):
             'email': self.email,
             'phone_number': self.phone_number,
             'party_id': self.party_id,
-            'zip_code': self.zip_code
+            'zip_code': self.zip_code,
+            'is_evacuating': self.is_evacuating
         }
         if include_email:
             data['email'] = self.email
         return data
 
     def from_dict(self, data, new_user=False):
-        for field in ['name', 'email', 'phone_number', 'is_mobile', 'is_safe', 'is_evacuating', 'address']:
+        for field in ['name', 'email', 'phone_number', 'address']:
             if field in data:
-                if isinstance(data[field], str):
-                    setattr(self, field, data[field].strip())
+                setattr(self, field, data[field].strip())
+
+        for field in ['is_mobile', 'is_safe', 'is_evacuating']:
+            if field in data:
+                if data[field].lower() == 'yes':
+                    setattr(self, field, True)
                 else:
-                    setattr(self, field, data[field])
+                    setattr(self, field, False)
 
         if 'zip_code' in data:
             if isinstance(data['zip_code'], str):
