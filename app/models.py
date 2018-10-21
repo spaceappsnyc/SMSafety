@@ -54,11 +54,12 @@ class User(UserMixin, db.Model):
                     setattr(self, field, data[field].strip())
                 else:
                     setattr(self, field, data[field])
+
         if 'zip_code' in data:
             if isinstance(data['zip_code'], str):
-                setattr(self, field, int(data['zip_code']))
+                setattr(self, 'zip_code', int(data['zip_code']))
             else:
-                setattr(self, field, data['zip_code'])
+                setattr(self, 'zip_code', data['zip_code'])
 
         if new_user and 'password' in data:
             self.set_password(data['password'])
