@@ -40,6 +40,18 @@ def create_user():
     response.headers['Location'] = url_for('api.get_user', id=user.id)
     return response
 
-@bp.route('/users/<int:id>', methods=['PUT'])
-def update_user(id):
-    pass
+@bp.route('/users', methods=['PUT'])
+def update_user():
+    data = request.get_json() or {}
+
+    if 'phone_number' not in data:
+        return bad_request('Must include phone number')
+
+    user = User.query.filter_by(phone_number=data['phone_number'].strip()).first()
+    if not user:
+        return bad_request('User not found')
+
+    user.from_dict(data, new_user=False)
+    db.session.commit()
+
+    return jsonify(user.to_dict())

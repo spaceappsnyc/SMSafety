@@ -44,7 +44,7 @@ class User(UserMixin, db.Model):
         return data
 
     def from_dict(self, data, new_user=False):
-        for field in ['name', 'email', 'phone_number']:
+        for field in ['name', 'email', 'phone_number', 'is_mobile', 'is_safe']:
             if field in data:
                 setattr(self, field, data[field].strip())
         if new_user and 'password' in data:
