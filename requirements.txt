@@ -9,7 +9,7 @@ Flask-Migrate==2.3.0
 Flask-SQLAlchemy==2.3.2
 Flask-WTF==0.14.2
 gunicorn==19.9.0
-httpie==0.9.9
+httpie>=1.0.3
 idna==2.7
 ItsDangerous==1.0.0
 Jinja2>=2.10.1
