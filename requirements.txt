@@ -13,7 +13,7 @@ httpie>=1.0.3
 idna==2.7
 ItsDangerous==1.0.0
 Jinja2>=2.10.1
-Mako==1.0.7
+Mako==1.2.2
 MarkupSafe==1.0
 psycopg2==2.7.5
 Pygments==2.2.0
